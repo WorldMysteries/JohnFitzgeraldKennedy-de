@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Der Fall Kennedy – eine historische Untersuchung</title>
+<style>
+:root {
+  --site-primary: #a92d2d;
+  --site-secondary: #252525;
+  --site-background: #f0eee9;
+  --site-on-primary: #ffffff;
+  --site-on-secondary: #ffffff;
+  --site-on-background: #1b1b1b;
+  --site-font-body: Arial, Helvetica, sans-serif;
+  --site-font-heading: Georgia, 'Times New Roman', serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: light-dark(#f0eee9,#171717); color: light-dark(#1b1b1b,#eeeeea); }
+#app { min-height: 100vh; width: 100%; border-radius: 0; background-color: var(--site-background); color: var(--site-on-background); overflow: hidden; }
+a { color: inherit; }
+.topbar { background: var(--site-secondary); color: var(--site-on-secondary); padding: calc(14px * var(--site-spacing-scale)) max(5vw,22px); display:flex; align-items:center; justify-content:space-between; gap:16px; border-bottom:4px solid var(--site-primary); }
+.brand { font-family:var(--site-font-heading); font-weight:bold; letter-spacing:.11em; font-size:13px; text-transform:uppercase; }
+.brand span { color:#d94b46; }
+.topbar nav { display:flex; gap:20px; flex-wrap:wrap; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+.topbar nav a { text-decoration:none; opacity:.86; }
+.topbar nav a:hover { color:#ef8c85; }
+.hero { position:relative; min-height:530px; display:grid; grid-template-columns: 1.08fr .92fr; background:#171717; color:#f3f0e9; }
+.hero-copy { padding:clamp(34px,7vw,92px) 4vw clamp(40px,7vw,88px) max(5vw,22px); display:flex; flex-direction:column; justify-content:center; position:relative; z-index:1; }
+.kicker { color:#e45a54; text-transform:uppercase; font-size:11px; letter-spacing:.22em; font-weight:bold; display:flex; align-items:center; gap:10px; }
+.kicker:before { content:''; width:28px; height:2px; background:var(--site-primary); }
+h1,h2,h3 { font-family:var(--site-font-heading); font-weight:normal; }
+h1 { font-size:clamp(42px,6vw,78px); line-height:.98; letter-spacing:-.045em; margin:22px 0; max-width:720px; }
+h1 em { color:#d64a44; font-style:normal; }
+.hero-copy p { color:#c6c4c0; max-width:520px; line-height:1.75; font-size:15px; }
+.hero-meta { display:flex; gap:28px; margin-top:30px; padding-top:18px; border-top:1px solid #484848; max-width:480px; }
+.hero-meta strong { display:block; font-family:var(--site-font-heading); font-size:25px; font-weight:normal; }
+.hero-meta small { color:#aaa; font-size:10px; text-transform:uppercase; letter-spacing:.12em; }
+.hero-art { position:relative; min-height:350px; overflow:hidden; background:#282828; }
+.hero-art img { width:100%; height:100%; position:absolute; inset:0; object-fit:cover; filter:grayscale(1) contrast(1.08); opacity:.77; }
+.hero-art:after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#171717 0%,transparent 40%),linear-gradient(0deg,rgba(0,0,0,.5),transparent 45%); }
+.photo-caption { position:absolute; z-index:2; bottom:22px; right:22px; max-width:210px; border-right:2px solid #d64a44; padding-right:12px; text-align:right; font-size:10px; color:#ddd; line-height:1.6; letter-spacing:.06em; }
+.ticker { background:var(--site-primary); color:white; padding:11px max(5vw,22px); display:flex; gap:18px; align-items:center; font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
+.ticker b { background:#171717; padding:5px 8px; font-size:9px; }
+.section { padding:clamp(42px,6vw,78px) max(5vw,22px); }
+.section-head { display:flex; justify-content:space-between; align-items:end; gap:22px; margin-bottom:30px; }
+.section-no { color:var(--site-primary); font-size:11px; font-weight:bold; letter-spacing:.16em; text-transform:uppercase; }
+h2 { font-size:clamp(31px,4vw,48px); margin:9px 0 0; line-height:1.08; letter-spacing:-.025em; }
+.section-intro { color:light-dark(#62605d,#b4b4b0); max-width:400px; line-height:1.65; font-size:13px; }
+.timeline { background:light-dark(#e5e2dc,#202020); }
+.timeline-track { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid light-dark(#bcb7ae,#4c4c4c); }
+.time-item { padding:24px 22px 8px 0; position:relative; cursor:pointer; }
+.time-item:before { content:''; position:absolute; top:-6px; left:0; width:11px; height:11px; border-radius:50%; background:light-dark(#aaa49a,#666); border:2px solid light-dark(#e5e2dc,#202020); }
+.time-item.active:before { background:var(--site-primary); box-shadow:0 0 0 4px #a92d2d22; }
+.time-item time { color:var(--site-primary); font-size:11px; font-weight:bold; letter-spacing:.08em; }
+.time-item h3 { font-size:21px; margin:12px 0 9px; }
+.time-item p { color:light-dark(#5d5a55,#bcbcb8); font-size:12px; line-height:1.7; margin:0; }
+.time-item:focus-visible,.filter:focus-visible,button:focus-visible { outline:2px solid var(--site-primary); outline-offset:4px; }
+.timeline-detail { margin-top:28px; padding:20px 22px; border-left:3px solid var(--site-primary); background:light-dark(#f2f0eb,#292929); display:grid; grid-template-columns:140px 1fr; gap:20px; }
+.timeline-detail .detail-time { font-family:var(--site-font-heading); font-size:24px; }
+.timeline-detail p { margin:0; font-size:13px; line-height:1.75; color:light-dark(#4d4a46,#d0cfca); }
+.evidence-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.evidence-card { border:1px solid light-dark(#d5d0c7,#454545); padding:23px; background:light-dark(#f8f7f3,#202020); min-height:235px; display:flex; flex-direction:column; }
+.evidence-top { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.evidence-icon { width:38px; height:38px; display:grid; place-items:center; border:1px solid light-dark(#c9c3b9,#555); color:var(--site-primary); font-size:18px; }
+.tag { font-size:9px; text-transform:uppercase; letter-spacing:.1em; padding:6px 7px; border:1px solid; }
+.tag.fact { color:#34714c; border-color:#79a88a; }
+.tag.dispute { color:#a92d2d; border-color:#c87974; }
+.evidence-card h3 { font-size:23px; margin:22px 0 9px; }
+.evidence-card p { font-size:12px; line-height:1.75; color:light-dark(#605d58,#bdbdb8); margin:0 0 17px; }
+.evidence-card button { margin-top:auto; background:transparent; border:0; border-top:1px solid light-dark(#d5d0c7,#454545); padding:13px 0 0; display:flex; justify-content:space-between; width:100%; color:var(--site-primary); text-transform:uppercase; letter-spacing:.1em; font-size:10px; cursor:pointer; }
+.evidence-detail { display:none; margin-top:12px; border-top:1px dashed light-dark(#ccc,#555); padding-top:12px; font-size:12px; line-height:1.7; color:light-dark(#333,#ddd); }
+.evidence-card.open .evidence-detail { display:block; }
+.versions { background:#1a1a1a; color:#f3f0e9; }
+.versions .section-intro { color:#b6b3ad; }
+.version-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:27px 0 20px; }
+.version-tabs button { cursor:pointer; background:transparent; color:#ccc; border:1px solid #505050; padding:11px 15px; font-size:11px; text-transform:uppercase; letter-spacing:.07em; }
+.version-tabs button.active { background:var(--site-primary); color:white; border-color:var(--site-primary); }
+.version-panel { display:grid; grid-template-columns:.8fr 1.2fr; border:1px solid #464646; }
+.version-aside { background:#242424; padding:28px; border-right:1px solid #464646; }
+.version-aside .label { color:#df5b55; text-transform:uppercase; letter-spacing:.15em; font-size:10px; }
+.version-aside h3 { font-size:30px; line-height:1.1; margin:15px 0; }
+.version-aside p { font-size:12px; line-height:1.75; color:#bcb9b2; }
+.verdict { margin-top:24px; padding-top:15px; border-top:1px solid #4b4b4b; font-size:11px; color:#e6e1d8; }
+.verdict strong { color:#e35a54; display:block; text-transform:uppercase; font-size:9px; letter-spacing:.13em; margin-bottom:7px; }
+.version-content { padding:28px; }
+.version-content h4 { text-transform:uppercase; font-size:10px; letter-spacing:.14em; color:#e35a54; margin:0 0 13px; }
+.version-content ul { margin:0; padding-left:17px; color:#d0cdc6; font-size:13px; line-height:1.9; }
+.version-content li { padding-left:5px; margin-bottom:8px; }
+.version-content .caution { margin-top:22px; padding:13px 15px; border-left:2px solid #a92d2d; background:#272727; font-size:11px; line-height:1.7; color:#c7c3bc; }
+.conclusion { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+.quote { font-family:var(--site-font-heading); font-size:clamp(25px,3.2vw,39px); line-height:1.2; border-left:3px solid var(--site-primary); padding-left:23px; margin:0; }
+.conclusion-copy p { font-size:13px; line-height:1.8; color:light-dark(#55514c,#c0bfba); margin-top:0; }
+.source-list { display:flex; flex-wrap:wrap; gap:9px; margin-top:20px; }
+.source-list a { font-size:10px; border:1px solid light-dark(#ccc6bc,#4a4a4a); padding:9px 11px; text-decoration:none; }
+.source-list a:hover { border-color:var(--site-primary); color:var(--site-primary); }
+.footer { background:var(--site-secondary); color:#aaa; padding:24px max(5vw,22px); display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; font-size:10px; line-height:1.7; }
+.footer strong { color:#eee; letter-spacing:.1em; }
+@media(max-width:800px) { .hero { grid-template-columns:1fr; } .hero-art { min-height:280px; grid-row:1; } .hero-copy { padding:36px 24px 46px; } .hero-art:after { background:linear-gradient(0deg,#171717 0%,transparent 60%); } .timeline-track { grid-template-columns:repeat(2,1fr); row-gap:20px; } .evidence-grid { grid-template-columns:1fr 1fr; } .version-panel { grid-template-columns:1fr; } .version-aside { border-right:0; border-bottom:1px solid #464646; } .conclusion { grid-template-columns:1fr; gap:25px; } }
+@media(max-width:520px) { .topbar { align-items:flex-start; flex-direction:column; } .topbar nav { gap:12px; } .section-head { align-items:flex-start; flex-direction:column; } .timeline-track { grid-template-columns:1fr; } .timeline-detail { grid-template-columns:1fr; gap:8px; } .evidence-grid { grid-template-columns:1fr; } .evidence-card { min-height:unset; } .hero-meta { gap:17px; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header class="topbar">
+  <div class="brand">Untersuchungsarchiv <span> / № 001</span></div>
+  <nav aria-label="Hauptnavigation"><a href="#timeline">Chronologie</a><a href="#evidence">Beweise</a><a href="#versions">Versionen</a><a href="#sources">Quellen</a></nav>
+</header>
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <div class="kicker">Historische Untersuchung · Dallas, 1963</div>
+    <h1>Mord<br>John F. <em>Kennedy</em></h1>
+    <p>Am 22. November 1963 wurde der Präsident der USA während einer Autokolonne in Dallas tödlich verwundet. Was haben die Untersuchungen ergeben, welche Beweise sind erhalten geblieben und warum bleiben manche Fragen umstritten?</p>
+    <div class="hero-meta"><div><strong>22.11.1963</strong><small>Der Mordtag</small></div><div><strong>12:30</strong><small>Ortszeit der Schüsse</small></div><div><strong>60 Jahre+</strong><small>Kontroversen und Untersuchungen</small></div></div>
+  </div>
+  <div class="hero-art"><img src="1.jpg" alt="Die Präsidentenkolonne von John F. Kennedy in Dallas, 22. November 1963" onerror="this.style.display='none'"><div class="photo-caption">DALLAS, TEXAS<br>22. NOVEMBER 1963 · ARCHIVAUFNAHME</div></div>
+</section>
+<div class="ticker"><b>DOSSIER 001</b><span>Gesicherte Fakten</span><span>·</span><span>Umstrittene Beweise</span><span>·</span><span>Versionen und Kontext</span></div>
+<section class="section timeline" id="timeline">
+  <div class="section-head"><div><div class="section-no">01 / Chronologie</div><h2>Der Tag, der die Geschichte veränderte</h2></div><p class="section-intro">Wählen Sie ein Ereignis aus, um eine kurze Übersicht zu lesen. Zeitangaben sind dort annähernd, wo die Quellen voneinander abweichen.</p></div>
+  <div class="timeline-track" role="list">
+    <article class="time-item active" role="button" tabindex="0" data-time="11:40" data-title="Ankunft in Dallas" data-detail="Die Präsidentenkolonne kam auf dem Flughafen Love Field an. Kennedy und die First Lady Jacqueline Kennedy fuhren in einer offenen Limousine auf der geplanten Route durch die Stadt."><time>11:40</time><h3>Ankunft</h3><p>Das Präsidentenflugzeug landet auf dem Flughafen Love Field.</p></article>
+    <article class="time-item" role="button" tabindex="0" data-time="12:30" data-title="Schüsse auf der Dealey Plaza" data-detail="Als die Limousine durch die Dealey Plaza fuhr, fielen Schüsse. Kennedy wurde tödlich verwundet; der Gouverneur von Texas, John Connally, wurde ebenfalls verletzt. Eine exakte Rekonstruktion der Schussfolge und einzelner Details bleibt Gegenstand fachlicher Kontroversen."><time>12:30</time><h3>Schüsse</h3><p>Die Kolonne passiert die Dealey Plaza; der Präsident wird tödlich verwundet.</p></article>
+    <article class="time-item" role="button" tabindex="0" data-time="13:00" data-title="Der Tod des Präsidenten wird verkündet" data-detail="Im Parkland Memorial Hospital versuchten Ärzte, den Präsidenten zu retten. Um 13:00 Uhr Ortszeit wurde sein Tod offiziell verkündet. Vizepräsident Lyndon Johnson legte kurz darauf an Bord der Air Force One den Amtseid ab."><time>13:00</time><h3>Bestätigung des Todes</h3><p>Im Parkland-Krankenhaus wird der Tod des Präsidenten verkündet.</p></article>
+    <article class="time-item" role="button" tabindex="0" data-time="24. November" data-title="Oswald erschossen" data-detail="Zwei Tage später erschoss der Nachtclubbesitzer Jack Ruby den mutmaßlichen Täter Lee Harvey Oswald im Keller der Polizeizentrale von Dallas während seiner Überstellung. Oswald starb noch am selben Tag und musste sich für den Mord am Präsidenten nie vor Gericht verantworten."><time>24.11.1963</time><h3>Der zweite Mord</h3><p>Jack Ruby verletzt den festgenommenen Lee Harvey Oswald tödlich.</p></article>
+  </div>
+  <div class="timeline-detail" aria-live="polite"><div class="detail-time" id="detailTime">11:40</div><p id="detailText">Die Präsidentenkolonne kam auf dem Flughafen Love Field an. Kennedy und die First Lady Jacqueline Kennedy fuhren in einer offenen Limousine auf der geplanten Route durch die Stadt.</p></div>
+</section>
+<section class="section" id="evidence">
+  <div class="section-head"><div><div class="section-no">02 / Fallakten</div><h2>Beweise unter dem Mikroskop</h2></div><p class="section-intro">Nicht alle Bestandteile des Falls haben denselben Beweisstatus. Öffnen Sie die Karten für Erläuterungen und Einschränkungen.</p></div>
+  <div class="evidence-grid">
+    <article class="evidence-card"><div class="evidence-top"><div class="evidence-icon">▤</div><span class="tag fact">Dokumentiert</span></div><h3>Schulbuchdepot</h3><p>Oswald arbeitete im Texas School Book Depository, von wo aus gemäß der offiziellen Version geschossen wurde.</p><button aria-expanded="false">Material ansehen <span>＋</span></button><div class="evidence-detail">Die Warren-Kommission verglich Zeugenaussagen, aufgefundene Hülsen und das Gewehr aus dem sechsten Stock. Diese Beweismittel bildeten den Kern der offiziellen Version. Für sich genommen beantworten sie nicht jede Frage nach Motiven und möglichen Mittätern.</div></article>
+    <article class="evidence-card"><div class="evidence-top"><div class="evidence-icon">◎</div><span class="tag fact">Echtes Material</span></div><h3>Zapruder-Film</h3><p>Ein Amateurfilm hielt die Kolonne und den Moment des Anschlags aus einer Beobachtungsposition an der Dealey Plaza fest.</p><button aria-expanded="false">Material ansehen <span>＋</span></button><div class="evidence-detail">Der Film von Abraham Zapruder ist eine wichtige visuelle Primärquelle. Er hilft, die Bewegung des Wagens und die Reaktionen der Menschen zu analysieren, zeigt aber nicht die Quelle aller Schüsse und kann allein keinen einzigen strittigen Punkt klären.</div></article>
+    <article class="evidence-card"><div class="evidence-top"><div class="evidence-icon">⌁</div><span class="tag dispute">Angefochten</span></div><h3>Akustische Daten</h3><p>1979 hielt ein Ausschuss des Kongresses den Mord für vermutlich das Ergebnis einer Verschwörung, auch gestützt auf eine akustische Analyse.</p><button aria-expanded="false">Material ansehen <span>＋</span></button><div class="evidence-detail">Der US-amerikanische National Research Council (1982) stellte später fest, dass die akustischen Daten einen zweiten Schützen nicht bestätigen. Dies ist ein wichtiges Beispiel dafür, wie Untersuchungsergebnisse bei der Prüfung von Methoden und Beweisen revidiert werden können.</div></article>
+    <article class="evidence-card"><div class="evidence-top"><div class="evidence-icon">▣</div><span class="tag fact">Festgestellt</span></div><h3>Gewehr und Hülsen</h3><p>Die Ermittlung brachte das im Gebäude aufgefundene Gewehr mit Oswald und den Schüssen auf die Kolonne in Verbindung.</p><button aria-expanded="false">Material ansehen <span>＋</span></button><div class="evidence-detail">Die Warren-Kommission sah die ballistischen und sachlichen Beweismittel mit der Schlussfolgerung vereinbar, dass aus dem Gebäude des Schulbuchdepots geschossen wurde. Die öffentliche Debatte berührte Details der Rekonstruktion, doch das Gewehr selbst ist ein realer Bestandteil der Ermittlungen und kein Gerücht.</div></article>
+    <article class="evidence-card"><div class="evidence-top"><div class="evidence-icon">▥</div><span class="tag fact">Offizielles Ergebnis</span></div><h3>Warren-Kommission</h3><p>Die Kommission von 1964 kam zu dem Ergebnis, dass Oswald Kennedy ermordete und allein handelte.</p><button aria-expanded="false">Material ansehen <span>＋</span></button><div class="evidence-detail">Die von Präsident Lyndon B. Johnson eingesetzte Kommission untersuchte Zeugenaussagen, Beweismittel und Dokumente. Ihr Fazit ist ein zentraler offizieller Bezugspunkt, doch spätere Untersuchungen und Kritiker warfen Fragen zu einzelnen Aspekten der Kommissionsarbeit auf.</div></article>
+    <article class="evidence-card"><div class="evidence-top"><div class="evidence-icon">✕</div><span class="tag dispute">Nicht bewiesen</span></div><h3>Mögliche Auftraggeber</h3><p>CIA, Mafia, Kuba und andere Kräfte tauchen in populären Theorien auf, doch die Existenz eines konkreten Auftraggebers ist nicht bewiesen.</p><button aria-expanded="false">Material ansehen <span>＋</span></button><div class="evidence-detail">Motive, politische Konflikte und Verdachtsmomente sind kein Beweis für eine Beteiligung. Einen verlässlichen, allgemein anerkannten Beweis, der einen konkreten Auftraggeber des Mordes benennt, gibt es nicht. Theorien müssen anhand überprüfbarer Quellen bewertet werden, nicht nach ihrer Popularität.</div></article>
+  </div>
+</section>
+<section class="section versions" id="versions">
+  <div class="section-head"><div><div class="section-no">03 / Vergleich der Versionen</div><h2>Was sagen die Untersuchungen</h2></div><p class="section-intro">Wechseln Sie zwischen den Versionen. Hier werden offizielle Ergebnisse, das Fazit der späteren Kommission und unbelegte Vermutungen unterschieden.</p></div>
+  <div class="version-tabs" role="tablist"><button class="active" role="tab" aria-selected="true" data-version="official">Offizielle Version</button><button role="tab" aria-selected="false" data-version="congress">Kongressausschuss</button><button role="tab" aria-selected="false" data-version="conspiracy">Verschwörungstheorien</button></div>
+  <div class="version-panel" aria-live="polite"><div class="version-aside"><div class="label" id="versionLabel">Warren-Kommission · 1964</div><h3 id="versionTitle">Oswald handelte allein</h3><p id="versionDesc">Die offizielle Untersuchung kam zu dem Ergebnis, dass Lee Harvey Oswald aus dem Schulbuchdepot auf den Präsidenten schoss und nicht im Rahmen einer bewiesenen Verschwörung handelte.</p><div class="verdict"><strong>Status des Ergebnisses</strong><span id="versionVerdict">Offizielles Fazit der Kommission</span></div></div><div class="version-content"><h4 id="versionEvidenceTitle">Worauf das Ergebnis beruht</h4><ul id="versionEvidence"><li>Beweisstücke und das im Gebäude aufgefundene Gewehr.</li><li>Zeugenaussagen und Rekonstruktion der Kolonnenroute.</li><li>Untersuchung der Lebensumstände und Bewegungen Oswalds.</li></ul><div class="caution" id="versionCaution">Wichtig: Ein offizielles Ergebnis ist nicht dasselbe wie absolute Gewissheit in allen Details. Offene Fragen allein beweisen jedoch keine alternative Version.</div></div></div>
+</section>
+<section class="section" id="sources">
+  <div class="section-head"><div><div class="section-no">04 / Fazit</div><h2>Was lässt sich sicher behaupten?</h2></div></div>
+  <div class="conclusion"><blockquote class="quote">„Fragen bleiben. Doch Fragen sind noch kein Beweis für eine Verschwörung“.</blockquote><div class="conclusion-copy"><p>John F. Kennedy wurde am 22. November 1963 in Dallas ermordet. Die Warren-Kommission benannte Lee Harvey Oswald als den einzigen Schützen. Der Sonderausschuss des Repräsentantenhauses für Attentate nahm 1979 eine Verschwörung an, jedoch stellte eine spätere Überprüfung der akustischen Daten eines der zentralen Argumente dieser Schlussfolgerung in Frage.</p><p>Ein historisch sauberer Ansatz trennt Primärquellen und gesicherte Umstände von Interpretationen, Gerüchten und unbewiesenen Anschuldigungen. Bis heute gibt es keine allgemein anerkannte, bewiesene Antwort auf die Frage nach einem konkreten Auftraggeber des Mordes.</p><div class="source-list"><a href="https://www.archives.gov/research/jfk/warren-commission-report" target="_blank" rel="noopener">US-Nationalarchiv · Warren-Kommission ↗</a><a href="https://www.archives.gov/research/jfk/house-select-committee-report" target="_blank" rel="noopener">Bericht des Sonderausschusses des Repräsentantenhauses ↗</a><a href="https://nap.nationalacademies.org/catalog/10264/the-evaluation-of-the-record-of-the-john-f-kennedy-assassination" target="_blank" rel="noopener">National Research Council · Akustik ↗</a></div></div></div>
+</section>
+</main>
+<footer class="footer"><div><strong>UNTERSUCHUNGSARCHIV / DOSSIER 001</strong><br>Historischer Überblick · Keine offizielle Untersuchung</div><div>Fakten und Interpretationen sind bewusst getrennt.<br>Design: Archiv-Typografie · Schwarz-Weiß-Palette · Roter Akzent</div></footer>
+</div>
+<script>
+const timelineItems = [...document.querySelectorAll('.time-item')];
+function selectTimeline(item) {
+  timelineItems.forEach(el => el.classList.toggle('active', el === item));
+  document.getElementById('detailTime').textContent = item.dataset.time;
+  document.getElementById('detailText').textContent = item.dataset.detail;
+}
+timelineItems.forEach(item => {
+  item.addEventListener('click', () => selectTimeline(item));
+  item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTimeline(item); } });
+});
+document.querySelectorAll('.evidence-card button').forEach(button => {
+  button.addEventListener('click', () => {
+    const card = button.closest('.evidence-card');
+    const open = card.classList.toggle('open');
+    button.setAttribute('aria-expanded', String(open));
+    button.firstChild.textContent = open ? 'Material verbergen ' : 'Material ansehen ';
+    button.querySelector('span').textContent = open ? '−' : '＋';
+  });
+});
+const versions = {
+  official: {
+    label:'Warren-Kommission · 1964', title:'Oswald handelte allein', desc:'Die offizielle Untersuchung kam zu dem Ergebnis, dass Lee Harvey Oswald aus dem Schulbuchdepot auf den Präsidenten schoss und nicht im Rahmen einer bewiesenen Verschwörung handelte.', verdict:'Offizielles Fazit der Kommission', heading:'Worauf das Ergebnis beruht', evidence:['Beweisstücke und das im Gebäude aufgefundene Gewehr.','Zeugenaussagen und Rekonstruktion der Kolonnenroute.','Untersuchung der Lebensumstände und Bewegungen Oswalds.'], caution:'Wichtig: Ein offizielles Ergebnis ist nicht dasselbe wie absolute Gewissheit in allen Details. Offene Fragen allein beweisen jedoch keine alternative Version.'
+  },
+  congress: {
+    label:'Sonderausschuss des Repräsentantenhauses · 1979', title:'Verschwörung wahrscheinlich', desc:'Der Sonderausschuss des Repräsentantenhauses für Attentate kam zu dem Schluss, dass Kennedy wahrscheinlich das Opfer einer Verschwörung wurde. Dabei konnte er die Identität eines zweiten Schützen oder weiterer Beteiligter nicht klären.', verdict:'Ergebnis einer späteren Untersuchung; Teile der Grundlagen sind angefochten', heading:'Was wichtig zu beachten ist', evidence:['Der Ausschuss untersuchte erneut Materialien und Zeugnisse, die zuvor nicht zugänglich waren oder eine andere Bewertung erfahren hatten.','Das Verschwörungsfazit stützte sich teilweise auf eine akustische Analyse einer Aufnahme des Polizeifunks.','1982 kam der National Research Council zu dem Schluss, dass diese akustischen Daten einen zweiten Schuss nicht bestätigen.'], caution:'Dies ist ein echtes Ergebnis eines offiziellen Ausschusses, doch es beweist nicht die Existenz eines konkreten Auftraggebers. Eine spätere Prüfung schwächte einen wichtigen Teil seiner Beweisgrundlage.'
+  },
+  conspiracy: {
+    label:'Populäre Hypothesen · kein einheitliches Fazit', title:'Wer könnte hinter dem Mord stehen?', desc:'In Büchern und öffentlichen Debatten wurden Theorien über die Beteiligung von Geheimdiensten, des organisierten Verbrechens, fremder Staaten und politischer Gegner aufgestellt. Keine dieser Versionen hat sich als bewiesene, allgemein anerkannte Antwort erwiesen.', verdict:'Unbelegte Versionen', heading:'Wie man solche Behauptungen bewertet', evidence:['Suchen Sie nach einem Primärdokument oder einer überprüfbaren Herkunftskette des Beweisstücks.','Trennen Sie bestätigte Fakten von Motiven, Zufällen und Aussagen aus zweiter Hand.','Prüfen Sie, ob ein zentrales Beweisstück später widerlegt oder neu bewertet wurde.'], caution:'Dieser Abschnitt behauptet nicht, dass eine Verschwörung unmöglich ist; er stellt klar, dass eine Anschuldigung konkreter Personen oder Organisationen Beweise erfordert, die für ein endgültiges Urteil nicht ausreichen.'
+  }
+};
+document.querySelectorAll('.version-tabs button').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('.version-tabs button').forEach(b => { const active = b === button; b.classList.toggle('active', active); b.setAttribute('aria-selected', String(active)); });
+  const v = versions[button.dataset.version];
+  document.getElementById('versionLabel').textContent = v.label;
+  document.getElementById('versionTitle').textContent = v.title;
+  document.getElementById('versionDesc').textContent = v.desc;
+  document.getElementById('versionVerdict').textContent = v.verdict;
+  document.getElementById('versionEvidenceTitle').textContent = v.heading;
+  document.getElementById('versionEvidence').innerHTML = v.evidence.map(item => '<li></li>').join('');
+  [...document.querySelectorAll('#versionEvidence li')].forEach((li,i) => li.textContent = v.evidence[i]);
+  document.getElementById('versionCaution').textContent = v.caution;
+}));
+</script>
+</body>
+</html>
